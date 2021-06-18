@@ -393,39 +393,32 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug(mbcs)|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release(mbcs)|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">cl.exe /P "%(Identity)" 
-"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">cl.exe /P "%(Identity)" /Fi"$(SolutionDir)temp\$(Platform)\\"
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" $(SolutionDir)temp\$(Platform)\%(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">armasm64</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Self-contained(debug)|ARM64'">cl.exe /P "%(Identity)" 
-"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Self-contained(debug)|ARM64'">cl.exe /P "%(Identity)" /Fi"$(SolutionDir)temp\$(Platform)\\"
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" $(SolutionDir)temp\$(Platform)\%(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Self-contained(debug)|ARM64'">armasm64</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Self-contained(minimal)|ARM64'">cl.exe /P "%(Identity)" 
-"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Self-contained(minimal)|ARM64'">cl.exe /P "%(Identity)" /Fi"$(SolutionDir)temp\$(Platform)\\"
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" $(SolutionDir)temp\$(Platform)\%(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Self-contained(minimal)|ARM64'">armasm64</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release(minimal)|ARM64'">cl.exe /P "%(Identity)" 
-"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release(minimal)|ARM64'">cl.exe /P "%(Identity)" /Fi"$(SolutionDir)temp\$(Platform)\\"
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" $(SolutionDir)temp\$(Platform)\%(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release(minimal)|ARM64'">armasm64</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Self-contained|ARM64'">cl.exe /P "%(Identity)" 
-"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Self-contained|ARM64'">cl.exe /P "%(Identity)" /Fi"$(SolutionDir)temp\$(Platform)\\"
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" $(SolutionDir)temp\$(Platform)\%(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Self-contained|ARM64'">armasm64</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Self-contained(mbcs)|ARM64'">cl.exe /P "%(Identity)" 
-"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Self-contained(mbcs)|ARM64'">cl.exe /P "%(Identity)" /Fi"$(SolutionDir)temp\$(Platform)\\"
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" $(SolutionDir)temp\$(Platform)\%(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Self-contained(mbcs)|ARM64'">armasm64</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug(mbcs)|ARM64'">cl.exe /P "%(Identity)" 
-"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug(mbcs)|ARM64'">cl.exe /P "%(Identity)" /Fi"$(SolutionDir)temp\$(Platform)\\"
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" $(SolutionDir)temp\$(Platform)\%(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug(mbcs)|ARM64'">armasm64</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">cl.exe /P "%(Identity)" 
-"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">cl.exe /P "%(Identity)" /Fi"$(SolutionDir)temp\$(Platform)\\"
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" $(SolutionDir)temp\$(Platform)\%(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">armasm64</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release(mbcs)|ARM64'">cl.exe /P "%(Identity)" 
-"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release(mbcs)|ARM64'">cl.exe /P "%(Identity)" /Fi"$(SolutionDir)temp\$(Platform)\\"
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" $(SolutionDir)temp\$(Platform)\%(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release(mbcs)|ARM64'">armasm64</Message>
     </CustomBuild>
     <None Include="source\resources\icon_filetype.ico" />
