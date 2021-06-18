@@ -9,6 +9,14 @@
     <ConfigurationType>Application</ConfigurationType>
   </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug(mbcs)|ARM64">
+      <Configuration>Debug(mbcs)</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -24,6 +32,18 @@
     <ProjectConfiguration Include="Debug(mbcs)|x64">
       <Configuration>Debug(mbcs)</Configuration>
       <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release(mbcs)|ARM64">
+      <Configuration>Release(mbcs)</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release(minimal)|ARM64">
+      <Configuration>Release(minimal)</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -48,6 +68,22 @@
     <ProjectConfiguration Include="Release(minimal)|x64">
       <Configuration>Release(minimal)</Configuration>
       <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Self-contained(debug)|ARM64">
+      <Configuration>Self-contained(debug)</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Self-contained(mbcs)|ARM64">
+      <Configuration>Self-contained(mbcs)</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Self-contained(minimal)|ARM64">
+      <Configuration>Self-contained(minimal)</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Self-contained|ARM64">
+      <Configuration>Self-contained</Configuration>
+      <Platform>ARM64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Self-contained|Win32">
       <Configuration>Self-contained</Configuration>
@@ -117,6 +153,15 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='ARM64'">
+    <ClCompile>
+      <PreprocessorDefinitions>_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link />
+  </ItemDefinitionGroup>
   <!-- paths and basic settings -->
   <PropertyGroup>
     <IntDir>temp\$(Platform)\$(Configuration)\</IntDir>
@@ -156,6 +201,7 @@
   <PropertyGroup>
     <PackerName>upx</PackerName>
     <PackerName Condition="'$(Platform)'=='x64'">mpress</PackerName>
+    <PackerName Condition="'$(Platform)'=='ARM64'">mpress</PackerName>
     <PackerPath Condition="'$(PackerPath)'=='' AND exists('$(PackerName).exe')">$(PackerName).exe</PackerPath>
     <PackerPath Condition="'$(PackerPath)'=='' AND exists('..\$(PackerName).exe')">..\$(PackerName).exe</PackerPath>
     <PackerArgs Condition="'$(PackerArgs)'=='' AND '$(PackerName)'=='upx'"> --best --no-lzma --filter=73 --compress-icons=0</PackerArgs>
@@ -179,6 +225,7 @@
   <!-- Visual C++ 2010 should place any newly created properties in these groups -->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release(mbcs)|Win32'" />
@@ -195,20 +242,28 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained(minimal)|x64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release(mbcs)|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release(mbcs)|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release(mbcs)|ARM64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release(minimal)|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release(minimal)|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release(minimal)|ARM64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained|ARM64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained(debug)|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained(debug)|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained(debug)|ARM64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained(mbcs)|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained(mbcs)|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained(mbcs)|ARM64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained(minimal)|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained(minimal)|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Self-contained(minimal)|ARM64'" />
   <!-- FILES -->
   <ItemGroup>
     <ClCompile Include="source\application.cpp" />
@@ -282,6 +337,7 @@
   <PropertyGroup>
     <Masm>ml</Masm>
     <Masm Condition="'$(Platform)'=='x64'">ml64</Masm>
+    <Masm Condition="'$(Platform)'=='ARM64'">ml64</Masm>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <CustomBuild>
@@ -293,6 +349,12 @@
     <ClCompile>
       <TreatWarningAsError Condition="!$(ConfigDebug)">true</TreatWarningAsError>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">wsock32.lib;winmm.lib;version.lib;comctl32.lib;psapi.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Link>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">wsock32.lib;winmm.lib;version.lib;comctl32.lib;psapi.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CustomBuild Include="source\lib\win2kcompat.asm">
@@ -310,6 +372,61 @@
       <Command>cscript.exe //NoLogo "$(SolutionDir)source\scripts\minman.js" "%(FullPath)" "$(SolutionDir)temp\AutoHotkey.exe.manifest"</Command>
       <Outputs>$(SolutionDir)temp\AutoHotkey.exe.manifest</Outputs>
       <SubType>Designer</SubType>
+    </CustomBuild>
+    <CustomBuild Include="source\libarm64call\arm64call.s">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Self-contained(debug)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Self-contained(minimal)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release(minimal)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Self-contained|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Self-contained(mbcs)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug(mbcs)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release(mbcs)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Self-contained(debug)|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Self-contained(minimal)|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release(minimal)|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Self-contained|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Self-contained(mbcs)|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug(mbcs)|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release(mbcs)|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">cl.exe /P "%(Identity)" 
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">armasm64</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Self-contained(debug)|ARM64'">cl.exe /P "%(Identity)" 
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Self-contained(debug)|ARM64'">armasm64</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Self-contained(minimal)|ARM64'">cl.exe /P "%(Identity)" 
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Self-contained(minimal)|ARM64'">armasm64</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release(minimal)|ARM64'">cl.exe /P "%(Identity)" 
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release(minimal)|ARM64'">armasm64</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Self-contained|ARM64'">cl.exe /P "%(Identity)" 
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Self-contained|ARM64'">armasm64</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Self-contained(mbcs)|ARM64'">cl.exe /P "%(Identity)" 
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Self-contained(mbcs)|ARM64'">armasm64</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug(mbcs)|ARM64'">cl.exe /P "%(Identity)" 
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug(mbcs)|ARM64'">armasm64</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">cl.exe /P "%(Identity)" 
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(SolutionDir)temp\$(Platform)\%(Filename).obj</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">armasm64</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release(mbcs)|ARM64'">cl.exe /P "%(Identity)" 
+"$(VC_ExecutablePath_x86_ARM64)\armasm64.exe" -I "$(WindowsSDK_IncludePath)" %(Filename).i $(Platform)\$(Configuration)\%(Filename).obj
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release(mbcs)|ARM64'">armasm64</Message>
     </CustomBuild>
     <None Include="source\resources\icon_filetype.ico" />
     <None Include="source\resources\icon_main.ico" />
