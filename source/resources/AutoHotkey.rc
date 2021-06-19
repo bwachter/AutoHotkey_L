@@ -164,6 +164,11 @@ END
 #endif
 #ifdef _WIN64
 #define AHK_BIT "64-bit"
+#ifdef _M_ARM64
+#define AHK_ARCH "ARM"
+#else
+#define AHK_ARCH ""
+#endif
 #else
 #define AHK_BIT "32-bit"
 #endif
@@ -194,7 +199,7 @@ BEGIN
             VALUE "ProductName", ""
             VALUE "ProductVersion", AHK_VERSION
 #else
-            VALUE "FileDescription", "AutoHotkey " AHK_ENC " " AHK_BIT
+            VALUE "FileDescription", "AutoHotkey " AHK_ENC " " AHK_ARCH AHK_BIT
             VALUE "FileVersion", AHK_VERSION
             VALUE "InternalName", "AutoHotkey"
             VALUE "LegalCopyright", "Copyright (C) 2003-2013"
