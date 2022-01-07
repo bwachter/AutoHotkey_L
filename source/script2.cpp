@@ -2008,7 +2008,10 @@ input_type *InputRelease(input_type *aInput)
 		if (aInput->ScriptObject->onEnd)
 			return aInput; // Return for caller to call OnEnd and Release.
 		aInput->ScriptObject->Release();
-		aInput->ScriptObject = NULL;
+		// The following is not done because this Release() is only to counteract an AddRef() in
+		// InputStart().  ScriptObject != NULL indicates this input_type is actually embedded in
+		// the InputObject and as such the link should never be broken until both are deleted.
+		//aInput->ScriptObject = NULL;
 	}
 	return NULL;
 }
@@ -15495,6 +15498,11 @@ BIF_DECL(BIF_NumGet)
 
 BIF_DECL(BIF_Format)
 {
+	if (TokenIsPureNumeric(*aParam[0]))
+	{
+		aResultToken.SetValue(ParamIndexToString(0, _f_retval_buf));
+		return;
+	}
 	LPCTSTR fmt = ParamIndexToString(0), lit, cp, cp_end, cp_spec;
 	LPTSTR target = NULL;
 	int size = 0, spec_len;
