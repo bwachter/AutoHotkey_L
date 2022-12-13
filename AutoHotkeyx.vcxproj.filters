@@ -243,6 +243,9 @@
     <CustomBuild Include="source\resources\AutoHotkey.exe.manifest">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="source\libarm64call\arm64call.s">
+      <Filter>Assembly Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="debug.natvis" />

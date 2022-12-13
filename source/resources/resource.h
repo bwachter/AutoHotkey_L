@@ -41,7 +41,7 @@
 #define ID_HELP_WEBSITE                 65412
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        236
@@ -60,8 +60,13 @@
 #endif
 #ifdef _WIN64
 #define AHK_BIT "64-bit"
+#ifdef _M_ARM64
+#define AHK_ARCH "ARM"
+#else
+#define AHK_ARCH ""
+#endif
 #else
 #define AHK_BIT "32-bit"
 #endif
 
-#define AHK_DESCRIPTION "AutoHotkey " AHK_ENC " " AHK_BIT
+#define AHK_DESCRIPTION "AutoHotkey " AHK_ENC " " AHK_ARCH AHK_BIT

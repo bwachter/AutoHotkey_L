@@ -12708,7 +12708,11 @@ struct DYNAPARM
 
 #ifdef _WIN64
 // This function was borrowed from http://dyncall.org/
-extern "C" UINT_PTR PerformDynaCall(size_t stackArgsSize, DWORD_PTR* stackArgs, DWORD_PTR* regArgs, void* aFunction);
+#ifdef _M_ARM64
+extern "C" UINT_PTR PerformDynaCall(void* aFunction, DWORD_PTR * stackArgs, size_t stackArgsSize, DWORD_PTR* regArgs);
+#else
+extern "C" UINT_PTR PerformDynaCall(size_t stackArgsSize, DWORD_PTR * stackArgs, DWORD_PTR * regArgs, void* aFunction);
+#endif
 
 // Retrieve a float or double return value.  These don't actually do anything, since the value we
 // want is already in the xmm0 register which is used to return float or double values.
@@ -12870,14 +12874,14 @@ DYNARESULT DynaCall(void *aFunction, DYNAPARM aParam[], int aParamCount, DWORD &
 #ifdef _WIN64
 
 	int params_left = aParamCount;
-	DWORD_PTR regArgs[4];
 	DWORD_PTR* stackArgs = NULL;
 	size_t stackArgsSize = 0;
 
+#ifdef _M_X64
+	DWORD_PTR regArgs[4];
 	// The first four parameters are passed in x64 through registers... like ARM :D
 	for(int i = 0; (i < 4) && params_left; i++, params_left--)
 		regArgs[i] = DynaParamToElement(aParam[i]);
-
 	// Copy the remaining parameters
 	if(params_left)
 	{
@@ -12887,11 +12891,68 @@ DYNARESULT DynaCall(void *aFunction, DYNAPARM aParam[], int aParamCount, DWORD &
 		for(int i = 0; i < params_left; i ++)
 			stackArgs[i] = DynaParamToElement(aParam[i+4]);
 	}
+#endif
+#ifdef _M_ARM64
+	DWORD_PTR regArgs[16]; // eight double, eight int
+	DWORD_PTR* regArgsInt = &regArgs[8];
+	int reg_double = 0;
+	int reg_int = 0;
+	int stack_args = 0;
+	int _params_left = params_left;
+	// The first eight float/double and int parameters are passed in arm64 through registers... 
+	for (int i = 0; params_left; i++, params_left--)
+	{
+		if (aParam[i].type == DLL_ARG_FLOAT || aParam[i].type == DLL_ARG_DOUBLE)
+		{
+			if (reg_double < 8)
+				regArgs[reg_double++] = DynaParamToElement(aParam[i]);
+			else
+				stack_args++;
+		}
+		else
+		{
+			if (reg_int < 8)
+				regArgsInt[reg_int++] = DynaParamToElement(aParam[i]);
+			else
+				stack_args++;
+		}
+	}
+	// Copy the remaining parameters
+	if (stack_args)
+	{
+		stackArgsSize = stack_args * 8;
+		stackArgs = (DWORD_PTR*)_alloca(stackArgsSize);
+		stack_args = 0;
+		params_left = _params_left;
+		for (int i = 0; params_left; i++, params_left--)
+		{
+			if (aParam[i].type == DLL_ARG_FLOAT || aParam[i].type == DLL_ARG_DOUBLE)
+			{
+				if (reg_double < 8)
+					reg_double++;
+				else
+					stackArgs[stack_args++] = DynaParamToElement(aParam[i]);
+			}
+			else
+			{
+				if (reg_int < 8)
+					reg_int++;
+				else
+					stackArgs[stack_args++] = DynaParamToElement(aParam[i]);
+			}
+		}
+	}
+#endif
 
 	// Call the function.
 	__try
 	{
+#ifdef _M_ARM64
+		Res.UIntPtr = PerformDynaCall(aFunction, stackArgs, stackArgsSize, regArgs);
+#else
 		Res.UIntPtr = PerformDynaCall(stackArgsSize, stackArgs, regArgs, aFunction);
+#endif
+
 	}
 	__except(EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -16923,10 +16984,20 @@ struct RCCallbackFunc // Used by BIF_RegisterCallback() and related.
 	USHORT data5;	//FF E1
 #endif
 #ifdef _WIN64
+#ifdef _M_X64
 	UINT64 data1; // 0xfffffffff9058d48
 	UINT64 data2; // 0x9090900000000325
 	void (*stub)();
 	UINT_PTR (CALLBACK *callfuncptr)(UINT_PTR*, char*);
+#endif
+#ifdef _M_ARM64
+	UINT32 data1; 
+	UINT32 data2; 
+	UINT32 data3;
+	UINT32 data4;
+	void (*stub)();
+	UINT_PTR(CALLBACK* callfuncptr)(UINT_PTR*, char*);
+#endif
 #endif
 	//code ends
 	UCHAR actual_param_count; // This is the actual (not formal) number of parameters passed from the caller to the callback. Kept adjacent to the USHORT above to conserve memory due to 4-byte struct alignment.
@@ -17184,6 +17255,7 @@ BIF_DECL(BIF_RegisterCallback)
 #endif
 
 #ifdef _WIN64
+#ifdef _M_X64
 	/* Adapted from http://www.dyncall.org/
 		lea rax, (rip)  # copy RIP (=p?) to RAX and use address in
 		jmp [rax+16]    # 'entry' (stored at RIP+16) for jump
@@ -17195,6 +17267,31 @@ BIF_DECL(BIF_RegisterCallback)
 	cb.data2 = 0x9090900000000325ULL;
 	cb.stub = RegisterCallbackAsmStub;
 	cb.callfuncptr = RegisterCallbackCStub;
+#endif
+
+#ifdef _M_ARM64
+	/* Adapted from http://www.dyncall.org/
+		Thunk Register: x9
+
+		Thunk:
+			adr x9,  Thunk
+			ldr x10, .target
+			br  x10
+			nop
+		.target:
+			.xword 0
+	*/
+
+	cb.data1 = 0x10000009; //   adr x9, 0
+	cb.data2 = 0x5800006a; //	ldr x9, entry
+	cb.data3 = 0xd61f0140; //   br  x9
+	cb.data4 = 0xd503201f; //   nop
+	cb.stub = RegisterCallbackAsmStub;
+	cb.callfuncptr = RegisterCallbackCStub;      // entry: 
+							 //   .xword 0
+#endif
+
+
 #endif
 
 	cb.event_info = (EventInfoType)ParamIndexToOptionalInt64(3, (size_t)callbackfunc);
